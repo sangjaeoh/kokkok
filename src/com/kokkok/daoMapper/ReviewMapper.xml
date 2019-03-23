@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokkok.review.dao.ReviewDao">
+        
+   <insert id="reviewWrite" parameterType="map">
+    	  insert into
+    	  	board (seq, bcode, userid, subject, content, logtime, updatetime, recommcount, wishcount, hit)
+    	  	values (#{seq}, #{bcode}, #{userid}, #{subject}, #{content}, sysdate, sysdate, 0,0,0)    	  	
+    </insert>
+    
+    <select id="reviewView" parameterType="String" resultType="com.kokkok.dto.ReviewDto">
+    	select * from board where seq = #{seq} and subject != '삭제된 일정입니다.'
+    </select>
+            
+    <select id="reviewList" parameterType="map" resultType="com.kokkok.dto.ReviewDto">
+    	select a.seq, a.bcode, a.userid, a.subject, a.content, a.updatetime, a.recommcount, a.wishcount, a.hit, b.ccode,
+    		case when to_char(logtime, 'yymmdd') = to_char(sysdate, 'yymmdd') 
+                  then to_char(logtime, 'hh24:mi:ss') 
+                  else to_char(logtime, 'yy/mm/dd') 
+             end logtime 
+    	from board a, board_list b 
+    	where a.bcode = b.bcode and b.ccode = #{ccode} and a.subject != '삭제된 일정입니다.'
+    	<if test="bcode != null and bcode !=''">
+		and a.bcode = #{bcode}
+    	</if>
+    	<if test="word != null and word != ''">
+    	and (a.subject like '%'||#{word}||'%' or a.content like '%'||#{word}||'%')    	
+    	</if>    	
+    	order by a.seq desc
+    </select>
+    
+    <update id="reviewUpdate" parameterType="map">
+    	update board
+		set bcode = #{bcode}, subject = #{subject}, content = #{content}, updatetime = sysdate
+		where seq = #{seq}
+    </update>
+    
+    <delete id="reviewDelete" parameterType="map">
+	    {call 
+	     declare 
+	     begin 	      
+	      delete from recommend where seq = #{seq}; 
+	      delete from wish where seq = #{seq};
+	      delete from comments where seq = #{seq};	     
+	      update board set subject = '삭제된 일정입니다.', content = '' where seq = #{seq};	       
+	     end 
+	    }
+    </delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+

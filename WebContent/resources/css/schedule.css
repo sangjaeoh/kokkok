@@ -1,0 +1,232 @@
+@charset "UTF-8";
+
+	#daySelectWrap {
+		position:absolute;top:350px;left:30px;width:110px;height:45px;
+		margin:10px 0 30px 10px;padding:2px;overflow-y:auto;
+		background:#f85959; z-index: 1;font-size:12px;border-radius: 5px;
+	}
+	#daySelectWrap #mapDay {
+		width:106px; height:41px; padding-left: 10px; border-radius: 5px;
+	}
+	.sl-loc-cont p img{
+	  display: inline-block;
+	  vertical-align: middle;
+	  max-height: 100%;
+	  max-width: 100%;
+	}
+
+/* ----- view --------------------*/
+.commForm {
+	padding: 20px 15px;
+}
+
+.form-control {
+	font-size: 15px;
+}
+.commDiv {
+	margin: 0px;
+}
+
+.commText {
+	width: 90%;
+}
+.commBtnDiv {
+	width: 10%;
+}
+.commMDBtn {
+	cursor:pointer;
+	color: red;
+	margin-right: 8px;
+	margin-top: 5px;
+	font-size: 13px;
+}
+
+.comment-list .slchild {
+    padding: 20px 0 0 20px;
+    margin: 0;
+    float: left;
+    width: 100%; }
+}
+
+/* ----^댓글^-----*/
+.viewWrap .cnt { display: inline-block; }
+.viewWrap .cnt div{
+	display: inline-block;	
+	margin-right: 10px;
+}
+.viewWrap .cnt #scheduleJJim,#scheduleRecomm{
+	cursor:pointer;
+}
+.viewWrap .tagcloud a {
+	background-color: white;
+}
+/* ----^왼쪽 사이드바 wrap^-----*/
+/* -------------------------------*/
+
+.ml-auto,readystate http status
+.mx-auto {
+  margin-left: auto !important; 
+  color: #f85959;
+  font-weight: bold;
+}
+.list-cnt{
+	margin-left: auto !important; 
+	color: #4d4d4d;	
+}
+.destination .text {
+  border: 1px solid #e6e6e6;
+  background: #fff; 
+ }
+  .destination .text .days {
+  margin: 0px;
+  font-size: 13px;
+  color: black;
+} 
+/*
+.destination .text .days span {
+  font-size: 13px;
+  color: black; }*/
+      
+.tagcloud a.location {
+	color: #cd2c6c;
+	border: 1px solid #cd2c6c;
+}
+.tagcloud a.season {
+	color: #108292;
+	border: 1px solid #108292;
+}
+.tagcloud a.thema {
+	color: #332679;
+	border: 1px solid #332679;
+}
+ 
+.slday-title {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.2;
+  color: inherit;
+  font-size: 5px;
+}
+
+.sl-day {
+	margin-bottom: 1rem;
+	margin-top: 0;
+	line-height: 1.5;
+	color: #000000;
+	font-weight: 400;
+	font-size: 2rem;
+	font-family: inherit;
+}
+.sl-day hr{
+	margin-top: 0px;
+}
+.day-updown a {
+	font-size: 1rem;
+      color: #f85959;
+      text-align: center;
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 50%;
+      border: 2px solid #fdd3d3; }
+      
+.sl-loc {
+	margin-bottom: 10px;
+	margin-top: 0;
+	line-height: 1.5;
+	color: #000000;
+	font-weight: 400;
+	font-size: 1.25rem;
+	font-family: inherit;
+}
+.loc-updown a {
+	font-size: 1rem;
+      color: #f85959;
+      text-align: center;
+      display: inline-block;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      border-radius: 50%;
+      border: 2px solid #fdd3d3; }
+.sl-loc-cont {
+	padding: 0 0 10px 3px;
+	font-size: 14px;	
+}
+.loc-updown a {
+	font-size: 0.5rem;
+      color: #000000;
+      text-align: center;
+      display: inline-block;
+      width: 15px;
+      height: 15px;
+      line-height: 15px;
+      border-radius: 50%;
+      border: 1px solid #6c757d; }
+.sl-oneDay {
+	margin-bottom: 18px;
+}
+
+.sl-oneDay .sl-day span{
+  font-size: 13px;
+  color: #6c757d; 
+  margin-left: 8px;}
+  
+ .sl-oneDay .sl-day .btn {
+	margin-left: 18px;
+}
+
+ .sl-oneDay .sl-day .scheduleAdd{
+ 	margin-left: 18px;
+ 	color: #f85959;
+ 	display: inline-block;
+ 	height: 35px;
+ 	border-radius: 30px;
+ 	border: 1px solid #fdd3d3;
+ 	font-size: 15px;
+ 	background-color: transparent;
+ 
+ }
+ 	 .sl-oneDay .sl-day .scheduleAdd:hover {
+	 	border: 1px solid #f85959;
+	 }
+.seul1,.seul2{
+	cursor:pointer;
+}  
+
+.modiDelBtn{
+	margin: 0px 10px;
+	border-radius: 0px;
+}    
+      
+/* drag */
+ 	.itemBoxHighlight {
+	height:40px;
+	margin-bottom: 0.5rem;
+	margin-top: 0;
+	background-color:#ffecec;
+	}
+	.modifyBox {
+		float:right;
+		display:none;
+		cursor:pointer;
+		color: blue;
+		margin-right: 8px;
+		margin-top: 8px;
+		font-size: 15px;
+	}
+	.deleteBox {
+		float:right;
+		display:none;
+		cursor:pointer;
+		color: red;
+		margin-right: 8px;
+		margin-top: 8px;
+		font-size: 15px;
+	}
+	.seul2 {
+		margin-left: 8px;
+	}
+	
+}

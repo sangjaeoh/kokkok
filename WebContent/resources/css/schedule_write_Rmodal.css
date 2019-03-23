@@ -1,0 +1,36 @@
+.smap_wrap, .smap_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
+.smap_wrap a, .smap_wrap a:hover, .smap_wrap a:active{color:#000;text-decoration: none;}
+.smap_wrap {position:relative;width:100%;height:300px;margin-bottom:15px;}
+#MRmenu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;height:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
+.bg_white {background:#fff;}
+#MRmenu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
+#MRmenu_wrap .option{text-align: center;}
+#MRmenu_wrap .option p {margin:10px 0;}  
+#MRmenu_wrap .option button {margin-left:5px;}
+#MRsplacesList li {list-style: none;}
+#MRsplacesList .item {position:relative;border-bottom:1px solid #888;overflow: hidden;cursor: pointer;min-height: 65px;}
+#MRsplacesList .item span {display: block;}
+#MRsplacesList .item h5, #MRsplacesList .item .info {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
+#MRsplacesList .item .info{padding:8px 0 8px 45px;}
+#MRsplacesList .info .gray {color:#8a8a8a;}
+#MRsplacesList .info .jibun {padding-left:26px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png) no-repeat;}
+#MRsplacesList .info .tel {color:#009900;}
+#MRsplacesList .item .markerbg {float:left;position:absolute;width:36px; height:37px;margin:10px 0 0 10px;background:url(http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+#MRsplacesList .item .marker_1 {background-position: 0 -10px;}
+#MRsplacesList .item .marker_2 {background-position: 0 -56px;}
+#MRsplacesList .item .marker_3 {background-position: 0 -102px}
+#MRsplacesList .item .marker_4 {background-position: 0 -148px;}
+#MRsplacesList .item .marker_5 {background-position: 0 -194px;}
+#MRsplacesList .item .marker_6 {background-position: 0 -240px;}
+#MRsplacesList .item .marker_7 {background-position: 0 -286px;}
+#MRsplacesList .item .marker_8 {background-position: 0 -332px;}
+#MRsplacesList .item .marker_9 {background-position: 0 -378px;}
+#MRsplacesList .item .marker_10 {background-position: 0 -423px;}
+#MRsplacesList .item .marker_11 {background-position: 0 -470px;}
+#MRsplacesList .item .marker_12 {background-position: 0 -516px;}
+#MRsplacesList .item .marker_13 {background-position: 0 -562px;}
+#MRsplacesList .item .marker_14 {background-position: 0 -608px;}
+#MRsplacesList .item .marker_15 {background-position: 0 -654px;}
+#MRpagination {margin:10px auto;text-align: center;}
+#MRpagination a {display:inline-block;margin-right:10px;}
+#MRpagination .on {font-weight: bold; cursor: default;color:#777;}

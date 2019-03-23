@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokkok.main.dao.MainDao">
+
+	<!-- 찜록록  -->
+	<insert id="registerWish" parameterType="java.util.Map">
+		insert into wish values(WISH_SEQ.nextval, #{seq}, #{userid})
+	</insert>
+  	
+  	<select id="checkWish" parameterType="java.util.Map" resultType="int">
+  		<![CDATA[select count(*) from wish where userid = #{userid} and seq = #{seq}]]>
+  	</select>
+  	
+  	<delete id="deleteWish" parameterType="java.util.Map">
+  		delete from wish where userid = #{userid} and seq = #{seq}
+  	</delete>
+  	
+  	<select id="countWish" parameterType="java.util.Map" resultType="int">
+  		select wishcount from board where seq = #{seq}
+  	</select>
+  	
+  	<update id="addWish" parameterType="java.util.Map">
+  		update board set wishcount = wishcount + 1 where seq = #{seq}
+  	</update>
+  	
+  	<update id="minusWish" parameterType="java.util.Map">
+  		update board set wishcount = wishcount - 1 where seq = #{seq}
+  	</update>
+  	
+  	
+  	
+  	<!-- 추천  -->
+  	<insert id="registerRecommend" parameterType="java.util.Map">
+		insert into recommend values(recommend_SEQ.nextval, #{seq}, #{userid})
+	</insert>
+  	
+  	<select id="checkRecommend" parameterType="java.util.Map" resultType="int">
+  		<![CDATA[select count(*) from recommend where userid = #{userid} and seq = #{seq}]]>
+  	</select>
+  	
+  	<delete id="deleteRecommend" parameterType="java.util.Map">
+  		delete from recommend where userid = #{userid} and seq = #{seq}
+  	</delete>
+  	
+  	<select id="countRecommend" parameterType="java.util.Map" resultType="int">
+  		select recommcount from board where seq = #{seq}
+  	</select>
+  	
+  	<update id="addRecommend" parameterType="java.util.Map">
+  		update board set recommcount = recommcount + 1 where seq = #{seq}
+  	</update>
+  	
+  	<update id="minusRecommend" parameterType="java.util.Map">
+  		update board set recommcount = recommcount - 1 where seq = #{seq}
+  	</update>
+  	
+  	
+  	
+  	<!-- 다음 글번호  -->
+  	<select id="getNextSeq" resultType="int">
+    	select BOARD_SEQ.nextval from dual
+    </select>
+    
+    <!-- 조회수 증가  -->
+    <update id="updateHit" parameterType="String">
+    	update board set hit = hit + 1 where seq = #{seq}
+    </update>
+    
+  	
+  	<!-- 댓글  -->
+  	<insert id="writeComments" parameterType="com.kokkok.dto.CommentsDto">
+  		insert into comments (cseq, seq, userid, ccontent, clogtime)
+		values (comments_seq.nextval, #{seq}, #{userid}, #{ccontent}, sysdate)
+  	</insert>
+	
+	<select id="commentsList" parameterType="String" resultType="com.kokkok.dto.CommentsDto">
+		select * from comments where seq = #{seq} order by cseq
+	</select>
+	
+	<delete id="commentsDelete" parameterType="String">
+		delete comments where cseq = #{cseq}
+	</delete>
+	
+	<update id="commentsUpdate" parameterType="java.util.Map">
+		update comments set ccontent = #{ccontent} where cseq = #{cseq}
+	</update>
+	
+	
+	<!-- 회원목록  -->	
+	<select id="getSearchMemberTotalCount" parameterType="java.util.Map" resultType="int">
+		<![CDATA[select count(*) as count
+		from member
+        where userid like '%'||#{word}||'%']]>
+	</select>
+	<select id="getMemberTotalCount" parameterType="java.util.Map" resultType="int">
+		<![CDATA[select count(*) as count
+		from member
+		where admincode != 1]]>
+	</select>
+	
+	<select id="getMemberList" parameterType="java.util.Map" resultType="com.kokkok.dto.MemberListDto">
+		 <![CDATA[select b.* from  
+			      (select rownum rn, a.* from 
+			      (select * from member where userid like '%'||#{word}||'%' and admincode != 1) a 
+			      where rownum <= #{endNum}) b 
+			      where b.rn >=#{startNum} ]]>
+	</select>
+	
+	
+	<!-- 통계  -->
+	<select id="getLocationStatistics" resultType="com.kokkok.dto.StatisticsDto">
+		<![CDATA[select * from
+		 (select address as location, count(*) as locationCount from
+		  (select substr (address, 0, instr(address, ' ',1,1)) address  from location)
+		  group by address order by locationCount desc) 
+		 where rownum<=5]]>
+	</select>
+	
+	<select id="getMonthStatistics" resultType="com.kokkok.dto.StatisticsDto">
+		<![CDATA[select * from 
+		(select startdate as month, count(*) as monthCount from 
+		(select substr (to_char(startdate, 'yyyy-mm'), 6, instr(to_char(startdate, 'yyyy-mm'), '-',1,1)-1) startdate from schedule)
+		 group by startdate order by month)
+		 where rownum<=12]]>
+	</select>
+</mapper>

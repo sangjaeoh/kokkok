@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokkok.tips.dao.TipsDao">
+   
+   <insert id="tipsWrite" parameterType="map">
+    	  insert into
+    	  	board (seq, bcode, userid, subject, content, logtime, updatetime, recommcount, wishcount, hit)
+    	  	values (#{seq}, #{bcode}, #{userid}, #{subject}, #{content}, sysdate, sysdate, 0,0,0)    	  	
+    </insert>
+    
+    <select id="tipsView" parameterType="String" resultType="com.kokkok.dto.TipsDto">
+    	select * from board where seq = #{seq}
+    </select>
+    
+    <select id="tipsList" parameterType="map" resultType="com.kokkok.dto.TipsDto">
+	select b.* 
+	from (
+         select rownum rn, a.* 
+	          from ( 
+	                select bcode, seq, subject, userid, hit, recommcount, content, updatetime, 
+                    case  
+	                    when to_char(logtime, 'yymmdd') = to_char(sysdate, 'yymmdd') 
+	                    then to_char(logtime, 'hh24:mi:ss') 
+	                    else to_char(logtime, 'yy.mm.dd') 
+	                end logtime 
+	               		
+		       from board
+	           where bcode = 6
+	       <if test="searchWord != null and searchWord != ''"> 	          	
+				<choose>
+	        		<when test="searchKey == 'subject'">
+	        		and subject like '%'||#{searchWord}||'%'
+	        		</when>	        		
+	        		<when test="searchKey == 'content'">
+	        		and content like '%'||#{searchWord}||'%'
+	        		</when>
+	        		<otherwise>
+	        		and ${searchKey} = #{searchWord}
+	        		</otherwise>
+	        	</choose>
+	    	</if>
+	        order by seq desc 
+	         ) a 
+	   where <![CDATA[ rownum <= #{endNum} ]]>) b
+	where b.rn >= #{startNum}
+	</select>
+	
+	<select id="getTipsListTotalCount" parameterType="java.util.Map" resultType="int">
+    	select count(*)
+		from board
+		where bcode = 6
+    </select>
+    
+  
+    
+    <update id="tipsUpdate" parameterType="map">
+    	update board
+		set subject = #{subject}, content = #{content}, updatetime = sysdate
+		where seq = #{seq}
+    </update>
+    
+    <delete id="tipsDelete" parameterType="map">
+	    {call 
+	     declare 
+	     begin 	      
+	      delete from recommend where seq = #{seq}; 
+	      delete from board where seq = #{seq}; 
+	     end 
+	    }
+    </delete>
+   
+    
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+  <!-- DB설정 -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@oracle-instance1.c39btlcttohl.ap-northeast-2.rds.amazonaws.com:1521:orcl"></property>
+		<!-- <property name="url" value="jdbc:oracle:thin:@localhost:1521:orcl"></property> -->
+		<property name="username" value="kitri"></property>
+		<property name="password" value="kitri"></property>
+	</bean>
+	
+	
+	<!-- MyBatis -->
+	<bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mapperLocations">
+			<list>		
+				<value>classpath:com/kokkok/daoMapper/MemberMapper.xml</value>
+				<value>classpath:com/kokkok/daoMapper/MainComm.xml</value>
+				<value>classpath:com/kokkok/daoMapper/ReviewMapper.xml</value>
+				<value>classpath:com/kokkok/daoMapper/ScheduleListMapper.xml</value>
+				<value>classpath:com/kokkok/daoMapper/ScheduleMapper.xml</value>	
+				<value>classpath:com/kokkok/daoMapper/TipsMapper.xml</value>
+			</list>
+		</property>		
+	</bean>	
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactoryBean"></constructor-arg>		
+	</bean>
+	
+	
+	<!--  transaction  -->
+   <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>  
+	
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRED" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>	
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- 해당함수에 @Transactional(propagation=Propagation.REQUIRED, rollbackFor=Exception.class) -->
+
+		
+</beans>

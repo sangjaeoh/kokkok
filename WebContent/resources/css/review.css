@@ -1,0 +1,119 @@
+@charset "UTF-8";
+/*--------------------list--------------*/
+
+.js-load {
+    display: block;
+}
+.js-load.active {
+    display: block;
+}
+
+.js-load:nth-child(n+4){
+	display:block;
+}
+
+.is_comp.js-load:after {
+    display: none;
+}
+
+.btn-wrap {
+    text-align: center;
+    display: block;
+}
+.text-overflow {
+  overflow: hidden; 
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap; 
+  /* height: 250px; */
+	height: auto;	/* 기본 높이 */
+	min-height: 50px;	/* 최소 높이 */
+	max-height: 250px;	/* 최대 높이 */  
+}
+
+.review-list-cont p img{
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 100%;
+  display: block;
+  margin: 0px auto;
+}
+.review-list-cont {
+	max-width: 95%;
+	
+}
+/* -----wish and like --------------------*/
+.cnt { 
+	display: inline-block;
+	
+ }
+.cnt div{
+	display: inline-block;	
+	margin-right: 25px;
+	cursor:pointer;
+}
+.cnt span{
+	display: inline-block;	
+	margin-right: 25px;
+}
+.icon-heart { color: #f85e5e;}
+.icon-thumbs-up { color: #6887f1;}  
+
+/* ----- view --------------------*/
+.commForm {
+	padding: 20px 15px;
+}
+
+.form-control {
+	font-size: 15px;
+}
+.commDiv {
+	margin: 0px;
+}
+
+.commText {
+	width: 90%;
+}
+.commBtnDiv {
+	width: 10%;
+}
+.commBtn {
+}
+
+.comment-list .slchild {
+    padding: 20px 0 0 20px;
+    margin: 0;
+    float: left;
+    width: 100%; }
+}
+.sl-loc-cont p img{
+  display: inline-block;
+  vertical-align: middle;
+  max-height: 100%;
+  max-width: 100%;
+  display: block;
+  margin: 0px auto;
+}
+
+  
+.sl-loc {
+	margin-bottom: 10px;
+	margin-top: 0;
+	line-height: 1.5;
+	color: #000000;
+	font-weight: 400;
+	font-size: 1.25rem;
+	font-family: inherit;
+}
+
+.sl-loc-cont {
+	padding: 0 0 10px 3px;
+	font-size: 14px;
+	max-width: 90%;
+}
+
+.review-cont{		
+	display: flex;
+  	align-items: center;
+ 	justify-content: center;
+}

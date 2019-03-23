@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokkok.member.dao.MemberDao">
+
+	
+	<insert id="register" parameterType="com.kokkok.dto.MemberDto">
+		insert into member(userid,username,useremail,userpass,joindate,admincode)
+		values(#{userid}, #{username}, #{useremail}, #{userpass}, sysdate, 0)                                       
+    </insert>
+    
+      
+    <select id="idCheck" parameterType="String" resultType="int">
+        <![CDATA[select count(*)
+        from member
+        where userid = #{checkid}]]>
+    </select>
+    
+    
+    <select id="login" parameterType="java.util.Map" resultType="com.kokkok.dto.MemberDto">
+    	select * from member
+		where userid = #{loginid} and userpass = #{loginpass}
+    </select>
+    
+    <select id="reLogin" parameterType="java.util.Map" resultType="com.kokkok.dto.MemberDto">
+    	select * from member
+		where userid = #{mid} and userpass = #{mpass}
+    </select>
+    
+    <update id="updatePw" parameterType="com.kokkok.dto.MemberDto">
+		update member set userpass = #{userpass} 
+		where userid = #{userid} and useremail = #{useremail}
+	</update>
+
+	<select id="findPw" parameterType="java.util.Map" resultType="com.kokkok.dto.MemberDto">
+		select * from member 
+		where userid = #{findid} and useremail = #{findemail}
+	</select>
+	
+	<update id="memberModify" parameterType="com.kokkok.dto.MemberDto">
+		update member 
+		set username = #{mname},
+    		userpass = #{mpass},
+    		useremail = #{memail}
+		where userid = #{mid}
+	</update>
+	
+	<delete id="memberdelete" parameterType="java.util.Map">
+		delete from member
+		where userid=#{deleteid} and userpass=#{deletepass}
+	</delete>
+	
+	<select id="getMyWishReviewTotalCount" parameterType="java.util.Map" resultType="int">
+      	select count(*) as rcount
+        from board a, wish b
+        where a.seq = b.seq
+        and b.userid = #{userid}
+        and (bcode='3' or bcode = '4' or bcode = '5' )
+    </select>
+
+
+	<select id="getMyWishReview" parameterType="java.util.Map" resultType="com.kokkok.dto.ReviewDto">
+		<![CDATA[
+		select b.* 
+		from(
+		    select rownum as rn, a.* 
+		    from(
+		        select bd.*
+		        from board bd,wish ws,board_list bl
+		        where bd.seq=ws.seq and bd.bcode = bl.bcode
+		         and ws.userid = #{userid}
+		         and bl.ccode = 2
+		        order by ws.wseq desc) a
+		    where rownum <= #{endNum}) b
+		where b.rn >= #{startNum}
+		]]>
+	</select>
+	
+	<select id="getMyWishScheduleTotalCount" parameterType="java.util.Map" resultType="int">
+		<![CDATA[
+		select count(*) as scount from schedule a, board b, wish c
+		where a.seq = b.seq
+		and b.seq = c.seq
+		and c.userid = #{userid}
+		]]>
+    </select>
+	
+	<select id="getMyWishSchedule" parameterType="java.util.Map" resultType="com.kokkok.dto.ScheduleListDto">
+		<![CDATA[
+		select b.*
+		from (select rownum rn, a.*
+		    from (select sseq, b.seq, b.bcode, b.userid, b.subject, b.logtime, b.updatetime, b.recommcount, b.wishcount, b.hit,
+		        a.startdate, a.enddate, a.enddate - a.startdate + 1 as period, a.originpicture, a.savefolder, 
+		        a.savepicture, a.persons, a.thema		
+		        from schedule a, board b, wish c
+		        where a.seq = b.seq
+		        and b.seq = c.seq
+		        and c.userid = #{userid}
+		        order by updatetime desc) a
+		    where rownum <= #{endNum}) b
+		where b.rn >= #{startNum}
+		]]>
+	</select>
+	
+	
+	<select id="getMyWriteScheduleTotalCount" parameterType="java.util.Map" resultType="int">
+		<![CDATA[
+		select count(*) as scount from schedule a, board b
+		where a.seq = b.seq
+		and b.userid = #{userid}
+		]]>
+    </select>
+	
+	<select id="getMyWriteSchedule" parameterType="java.util.Map" resultType="com.kokkok.dto.ScheduleListDto">
+		<![CDATA[
+        select b.*
+		from (select rownum rn, a.*
+		    from (select sseq, b.seq, b.bcode, b.userid, b.subject, b.logtime, b.updatetime, b.recommcount, b.wishcount, b.hit,
+		        a.startdate, a.enddate, a.enddate - a.startdate + 1 as period, a.originpicture, a.savefolder, 
+		        a.savepicture, a.persons, a.thema		
+		        from schedule a, board b
+		        where a.seq = b.seq
+		        and b.userid = #{userid}
+		        order by updatetime desc) a
+		    where rownum <= #{endNum}) b
+		where b.rn >= #{startNum}
+		]]>
+	</select>
+
+</mapper>

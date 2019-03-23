@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokkok.schedule.dao.ScheduleDao">
+
+	<insert id="scheduleWrite" parameterType="map">
+		insert all
+		into schedule
+			(sseq, seq, startdate, enddate, originpicture, savefolder,
+			savepicture, persons, thema)
+			values (schedule_seq.nextval, #{seq},
+			to_date(#{startdate},'YYYY-MM-DD'), to_date(#{enddate},'YYYY-MM-DD'),
+			#{originpicture}, #{savefolder}, #{savepicture}, 
+			#{persons}, #{thema})
+		into board 
+			(seq, bcode, userid,
+			subject, content, logtime, updatetime,
+			recommcount, wishcount, hit)
+			values (#{seq}, #{sbcode}, #{userid}, #{ssubject}, #{scontent},
+			sysdate,
+			sysdate, 0,0,0 )
+		select * from dual
+	</insert>
+
+	<select id="getNextSseq" resultType="int">
+		select max(sseq) from schedule
+	</select>
+	<select id="countReview" parameterType="String" resultType="int">
+		<![CDATA[select count(*) from board where seq = #{seq}]]>
+	</select>
+
+	<insert id="scheduleReviewWrite" parameterType="java.util.Map">
+		insert all
+		into board (seq, bcode, userid, subject, content, logtime, updatetime,
+			recommcount, wishcount, hit)
+		 values (#{seq}, #{bcode},#{userid},
+			#{subject}, #{content}, sysdate,
+			sysdate, 0,0,0 )
+		into location (seq,
+			location, lat, lng, address, simpleaddr)
+		 values (#{seq}, #{location},
+			#{lat}, #{lng}, #{address}, #{simpleaddr})
+		into schedule_board (sseq,
+			seq, tripday, step)
+		 values (#{sseq}, #{seq}, #{tripday}, #{step})
+		select * from dual
+	</insert>
+	<!-- select substr(address, 0, instr(address, ' ',1,2)) address from location  -->
+
+	<select id="scheduleView" parameterType="String"
+		resultType="com.kokkok.dto.ScheduleViewDto">
+		select sseq, b.seq, startdate, enddate, originpicture,
+		savefolder,
+		savepicture, persons, thema, enddate - startdate + 1 as
+		period,
+		bcode, userid, subject, content, logtime, updatetime,
+		recommcount,
+		wishcount, hit
+		from schedule s, board b
+		where s.seq=b.seq
+		and sseq=#{sseq}
+	</select>
+
+	<select id="selectReview" parameterType="String"
+		resultType="com.kokkok.dto.ScheduleBoardDto">
+		select *
+		from schedule_board
+		where sseq=#{sseq}
+		order by
+		tripday, step
+	</select>
+
+	<select id="scheduleReviewView" parameterType="String"
+		resultType="com.kokkok.dto.ScheduleReviewDto">
+		select *
+		from board b, location l, schedule_board sb
+		where
+		b.seq=l.seq and b.seq=sb.seq
+		and b.seq=#{seq}
+	</select>
+
+	<select id="scheduleReviewLoc" parameterType="String"
+		resultType="String">
+		select simpleaddr
+		from location
+		where seq=#{seq}
+	</select>
+
+	<delete id="scheduleReviewDelete" parameterType="String">
+		{call
+		declare
+		begin
+		delete from comments where seq = #{seq};
+		delete from recommend where seq = #{seq};
+		delete from wish where seq = #{seq};
+		delete from location where seq = #{seq};
+		delete from schedule_board where seq = #{seq};
+		delete from board where seq = #{seq};
+		end
+		}
+	</delete>
+
+	<delete id="scheduleDelete" parameterType="String">
+		{call
+		declare
+		begin
+		delete from comments where seq = #{seq};
+		delete from recommend where seq = #{seq};
+		delete from wish where seq = #{seq};
+		delete from schedule_board where seq = #{seq};
+		delete from schedule where seq = #{seq};
+		delete from board where seq = #{seq};
+		end
+		}
+	</delete>
+
+	<update id="scheduleUpdate" parameterType="java.util.Map">
+		{call
+		declare
+		begin
+		update schedule
+		 set startdate=to_date(#{startdate},'YYYY-MM-DD'), enddate=to_date(#{enddate},'YYYY-MM-DD'), 
+			originpicture=#{originpicture}, savefolder=#{savefolder}, savepicture=#{savepicture}, 
+			persons=#{persons}, thema=#{thema}
+		 where seq=#{hseq};
+		update board
+		 set bcode=#{sbcode}, subject=#{ssubject}, content=#{scontent}, updatetime=sysdate
+		 where seq=#{hseq};
+		end
+		}
+	</update>
+
+	<update id="scheduleReviewUpdate" parameterType="java.util.Map">
+		{call
+		declare
+		begin
+		update board 
+		 set subject=#{subject}, content=#{content}, updatetime=sysdate
+		 where seq=#{seq};
+		update location 
+		 set location=#{location}, lat=#{lat}, lng=#{lng}, address=#{address}, simpleaddr=#{simpleaddr}
+		 where seq=#{seq};
+		update schedule_board 
+		 set tripday=#{tripday}, step=#{step}
+		 where seq=#{seq};
+		end
+		}
+	</update>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
